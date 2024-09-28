@@ -1,15 +1,78 @@
-import './style.css';
+/* import { IBAN } from './modelo'; */
 
-/* Tienes un grupo de 6 amigos y quieres invitarlos a cenar por tu cumpleaños.
+const obtenerValorInput = (): string => {
+  const input = document.querySelector('#input_iban');
+  if (input && input instanceof HTMLInputElement) {
+    return input.value.toUpperCase();
+  }
+  throw new Error('No se ha obtenido el valor del input');
+};
 
-Solo puedes permitirte invitar a las bebidas, ya que estás un poco ajustado de dinero.
-Tienes un ticket de cena que cuesta 120 € y en el que ya se incluyen las bebidas por un valor de 18 €.
-Calcula cuánto tendría que pagar cada comensal para dividir los costos de manera equitativa.
-Utiliza JavaScript para hacer el cálculo y mostrar el resultado por consola. */
+const habilitarBoton = () => {
+  const comprobar = document.querySelector('#comprobar');
+  if (comprobar && comprobar instanceof HTMLButtonElement) {
+    comprobar.removeAttribute('disabled');
+  }
+};
+const deshabilitarBoton = () => {
+  const comprobar = document.querySelector('#comprobar');
+  if (comprobar && comprobar instanceof HTMLButtonElement) {
+    comprobar.setAttribute('disabled', 'true');
+  }
+};
 
-console.log((120 - 18) / 6);
+const validarIbanBienFormado = (valor: string): boolean => {
+  const patron =
+    /^([A-Z]{2})(\d{2})(\s|-)?\d{4}(\s|-)?\d{4}(\s|-)?\d{2}(\s|-)?\d{10}$/gm;
+  if (patron.test(valor)) {
+    crearTitulo('El IBAN está bien formado');
+    crearTitulo('El IBAN es válido');
+    crearTitulo('Código sucursal:');
+    crearTitulo('Dígito de control:');
+    crearTitulo('Número de cuenta:');
+    deshabilitarBoton();
+    return true;
+  }
+  crearTitulo('El IBAN no está bien formado');
+  return false;
+};
 
-let amigos: number = 6;
-let totalCuenta: number = 120;
-let totalBebidas: number = 18;
-console.log((totalCuenta - totalBebidas) / 6);
+const crearTitulo = (texto: string) => {
+  const divInfo = document.querySelector('.info');
+  const titulo = document.createElement('h2');
+  if (divInfo && divInfo instanceof HTMLDivElement) {
+    titulo.textContent = texto;
+    divInfo.appendChild(titulo);
+  }
+};
+
+/* const limpiarInfo = (ibanValido: boolean) => {
+  const divInfo = document.querySelector('.info');
+  if (
+    divInfo &&
+    divInfo instanceof HTMLDivElement &&
+    divInfo.children.length > 0 &&
+    ibanValido
+  ) {
+    divInfo.innerHTML = '';
+  }
+}; */
+
+const eventos = () => {
+  const comprobar = document.querySelector('#comprobar');
+  const input = document.querySelector('#input_iban');
+
+  if (input && input instanceof HTMLInputElement) {
+    input.addEventListener('change', habilitarBoton);
+  }
+
+  if (comprobar && comprobar instanceof HTMLButtonElement) {
+    comprobar.addEventListener('click', () => {
+      const valorInput = obtenerValorInput();
+      validarIbanBienFormado(valorInput);
+      //limpiarInfo(ibanValidado);
+    });
+  }
+};
+
+document.addEventListener('DOMContentLoaded', eventos);
