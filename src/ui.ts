@@ -27,6 +27,7 @@ export const eventos = () => {
       borrar.classList.add('oculto');
     });
   }
+
   if (comprobar && comprobar instanceof HTMLButtonElement) {
     comprobar.addEventListener('click', () => {
       const valorInput = obtenerValorInput();
