@@ -10,10 +10,16 @@
   <body>
     <div id="app">
       <main>
-        <div id="intentos"></div>
-        <h1>Adivina el número</h1>
-        <div>
-          <input type="text" name="" id="input_iban" />
+        <h1>Introduzca el IBAN</h1>
+        <div class="container_input">
+          <input
+            type="text"
+            name=""
+            id="input_iban"
+            placeholder="XX 0000 0000 00 0000000000"
+          />
+          <span class="clear oculto">+</span>
+        </div>
           <button id="comprobar" disabled>Comprobar</button>
           <div class="info"></div>
         </div>
