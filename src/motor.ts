@@ -1,7 +1,6 @@
 export const obtenerValorInput = (): string => {
   const input = document.querySelector('#input_iban');
   if (input && input instanceof HTMLInputElement) {
-    console.log(input.value.toUpperCase().trim());
     return input.value.toUpperCase().trim();
   }
   throw new Error('No se ha obtenido el valor del input');
@@ -45,20 +44,32 @@ export const limpiarInfo = () => {
 
 export const validarIbanBienFormado = (valor: string): boolean => {
   const patron =
-    /^([A-Z]{2})(\d{2})(\s|-)?\d{4}(\s|-)?\d{4}(\s|-)?\d{2}(\s|-)?\d{10}$/gm;
-  if (patron.test(valor)) {
-    crearTitulo('El IBAN está bien formado');
-    crearTitulo('El IBAN es válido');
-    crearTitulo('Código sucursal:');
-    crearTitulo('Dígito de control:');
-    crearTitulo('Número de cuenta:');
+    /^(?<pais>[A-Z]{2})(?<digitoControlPais>\d{2})(\s|-)?(?<entidad>\d{4})(\s|-)?(?<oficina>\d{4})(\s|-)?(?<digitoControl>\d{2})(\s|-)?(?<numeroCuenta>\d{10})$/gm;
+  const coincidencia = patron.exec(valor);
+  if (coincidencia) {
+    const {
+      pais,
+      digitoControlPais,
+      entidad,
+      oficina,
+      digitoControl,
+      numeroCuenta,
+    } = coincidencia.groups as any;
+    console.log(entidad, oficina, numeroCuenta);
+    crearTitulo(`El IBAN está bien formado`);
+    crearTitulo(`El IBAN es válido`);
+    crearTitulo(`PAÍS: ${pais}`);
+    crearTitulo(`Dígito control país: ${digitoControlPais}`);
+    crearTitulo(`Código sucursal: ${entidad}`);
+    crearTitulo(`Código oficina: ${oficina}`);
+    crearTitulo(`Dígito de control: ${digitoControl}`);
+    crearTitulo(`Número de cuenta: ${numeroCuenta}`);
     deshabilitarBoton();
     return true;
   }
   crearTitulo('El IBAN no está bien formado');
   deshabilitarBoton();
   throw new Error('El IBAN no está bien formado');
-
   return false;
 };
 

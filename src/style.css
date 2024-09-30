@@ -119,3 +119,6 @@ span.clear {
 .oculto {
   visibility: hidden;
 }
+.info {
+  text-align: left;
+}
