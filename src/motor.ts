@@ -1,3 +1,5 @@
+import { tablaBancos } from './modelo';
+
 export const obtenerValorInput = (): string => {
   const input = document.querySelector('#input_iban');
   if (input && input instanceof HTMLInputElement) {
@@ -45,8 +47,8 @@ export const limpiarInfo = () => {
 export const validarIbanBienFormado = (valor: string): boolean => {
   const patron =
     /^(?<pais>[A-Z]{2})(?<digitoControlPais>\d{2})(\s|-)?(?<entidad>\d{4})(\s|-)?(?<oficina>\d{4})(\s|-)?(?<digitoControl>\d{2})(\s|-)?(?<numeroCuenta>\d{10})$/gm;
-  const coincidencia = patron.exec(valor);
-  if (coincidencia) {
+  const ibanValido = patron.exec(valor);
+  if (ibanValido) {
     const {
       pais,
       digitoControlPais,
@@ -54,8 +56,8 @@ export const validarIbanBienFormado = (valor: string): boolean => {
       oficina,
       digitoControl,
       numeroCuenta,
-    } = coincidencia.groups as any;
-    console.log(entidad, oficina, numeroCuenta);
+    } = ibanValido.groups as any;
+
     crearTitulo(`El IBAN está bien formado`);
     crearTitulo(`El IBAN es válido`);
     crearTitulo(`PAÍS: ${pais}`);
@@ -73,9 +75,33 @@ export const validarIbanBienFormado = (valor: string): boolean => {
   return false;
 };
 
+const obtenerCodigoBancoIban = (valor: string): string => {
+  const patron =
+    /^(?<pais>[A-Z]{2})(?<digitoControlPais>\d{2})(\s|-)?(?<entidad>\d{4})(\s|-)?(?<oficina>\d{4})(\s|-)?(?<digitoControl>\d{2})(\s|-)?(?<numeroCuenta>\d{10})$/gm;
+  const ibanValido = patron.exec(valor);
+  if (ibanValido) {
+    const { entidad } = ibanValido.groups as any;
+    return entidad;
+  }
+  throw new Error('No se ha obtenido el código del banco');
+};
+
+export const coincidenciaEnTablaBancos = (
+  valor: string
+): string | undefined => {
+  const codigoBancoIban = obtenerCodigoBancoIban(valor);
+  return tablaBancos.find((banco) => {
+    if (banco.slice(0, 4).trim() === codigoBancoIban) {
+      const nombreBanco = banco.slice(5);
+      return crearTitulo(`Banco: ${nombreBanco}`);
+    }
+    return undefined;
+  });
+};
+
 export const validarIbanBienFormadoParaTest = (valor: string): boolean => {
   const patron =
-    /^([A-Z]{2})(\d{2})(\s|-)?\d{4}(\s|-)?\d{4}(\s|-)?\d{2}(\s|-)?\d{10}$/gm;
+    /^(?<pais>[A-Z]{2})(?<digitoControlPais>\d{2})(\s|-)?(?<entidad>\d{4})(\s|-)?(?<oficina>\d{4})(\s|-)?(?<digitoControl>\d{2})(\s|-)?(?<numeroCuenta>\d{10})$/gm;
   if (patron.test(valor)) {
     return true;
   }

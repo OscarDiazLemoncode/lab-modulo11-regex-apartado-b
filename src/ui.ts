@@ -3,6 +3,7 @@ import {
   limpiarInfo,
   obtenerValorInput,
   validarIbanBienFormado,
+  coincidenciaEnTablaBancos,
 } from './motor';
 
 export const eventos = () => {
@@ -32,6 +33,7 @@ export const eventos = () => {
     comprobar.addEventListener('click', () => {
       const valorInput = obtenerValorInput();
       validarIbanBienFormado(valorInput);
+      coincidenciaEnTablaBancos(valorInput);
     });
   }
 };
