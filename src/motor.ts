@@ -1,4 +1,4 @@
-import { tablaBancos } from './modelo';
+import { tablaBancos, PATRON } from './modelo';
 
 export const obtenerValorInput = (): string => {
   const input = document.querySelector('#input_iban');
@@ -47,8 +47,33 @@ export const limpiarInfo = () => {
 export const validarIbanBienFormado = (valor: string): boolean => {
   const patron =
     /^(?<pais>[A-Z]{2})(?<digitoControlPais>\d{2})(\s|-)?(?<entidad>\d{4})(\s|-)?(?<oficina>\d{4})(\s|-)?(?<digitoControl>\d{2})(\s|-)?(?<numeroCuenta>\d{10})$/gm;
-  const ibanValido = patron.exec(valor);
-  if (ibanValido) {
+  return patron.exec(valor) ? true : false;
+};
+
+const coincidenciaConTablaBancos = (entidad: string): string | undefined => {
+  const bancoEncontrado = tablaBancos.find((banco) => {
+    const digitosBanco = banco.trim().slice(0, 4);
+    return entidad === digitosBanco;
+  });
+
+  if (bancoEncontrado) {
+    const nombreBanco = bancoEncontrado.trim().slice(5);
+    crearTitulo(`Banco: ${nombreBanco}`);
+  } else {
+    crearTitulo('No hay coincidencias con ningún banco');
+  }
+  return bancoEncontrado;
+};
+
+export const mostrarDatosIban = (valor: string, ibanValidado: boolean) => {
+  //const ibanValidado = validarIbanBienFormado(valor);
+  const datosExtraidosDelIban = PATRON.exec(valor);
+
+  ibanValidado
+    ? crearTitulo(`El IBAN está bien formado`)
+    : crearTitulo(`El IBAN NO está bien formado`);
+
+  if (ibanValidado && datosExtraidosDelIban) {
     const {
       pais,
       digitoControlPais,
@@ -56,9 +81,7 @@ export const validarIbanBienFormado = (valor: string): boolean => {
       oficina,
       digitoControl,
       numeroCuenta,
-    } = ibanValido.groups as any;
-
-    crearTitulo(`El IBAN está bien formado`);
+    } = datosExtraidosDelIban.groups as any;
     crearTitulo(`El IBAN es válido`);
     crearTitulo(`PAÍS: ${pais}`);
     crearTitulo(`Dígito control país: ${digitoControlPais}`);
@@ -66,44 +89,7 @@ export const validarIbanBienFormado = (valor: string): boolean => {
     crearTitulo(`Código oficina: ${oficina}`);
     crearTitulo(`Dígito de control: ${digitoControl}`);
     crearTitulo(`Número de cuenta: ${numeroCuenta}`);
+    coincidenciaConTablaBancos(entidad);
     deshabilitarBoton();
-    return true;
   }
-  crearTitulo('El IBAN no está bien formado');
-  deshabilitarBoton();
-  throw new Error('El IBAN no está bien formado');
-  return false;
-};
-
-const obtenerCodigoBancoIban = (valor: string): string => {
-  const patron =
-    /^(?<pais>[A-Z]{2})(?<digitoControlPais>\d{2})(\s|-)?(?<entidad>\d{4})(\s|-)?(?<oficina>\d{4})(\s|-)?(?<digitoControl>\d{2})(\s|-)?(?<numeroCuenta>\d{10})$/gm;
-  const ibanValido = patron.exec(valor);
-  if (ibanValido) {
-    const { entidad } = ibanValido.groups as any;
-    return entidad;
-  }
-  throw new Error('No se ha obtenido el código del banco');
-};
-
-export const coincidenciaEnTablaBancos = (
-  valor: string
-): string | undefined => {
-  const codigoBancoIban = obtenerCodigoBancoIban(valor);
-  return tablaBancos.find((banco) => {
-    if (banco.slice(0, 4).trim() === codigoBancoIban) {
-      const nombreBanco = banco.slice(5);
-      return crearTitulo(`Banco: ${nombreBanco}`);
-    }
-    return undefined;
-  });
-};
-
-export const validarIbanBienFormadoParaTest = (valor: string): boolean => {
-  const patron =
-    /^(?<pais>[A-Z]{2})(?<digitoControlPais>\d{2})(\s|-)?(?<entidad>\d{4})(\s|-)?(?<oficina>\d{4})(\s|-)?(?<digitoControl>\d{2})(\s|-)?(?<numeroCuenta>\d{10})$/gm;
-  if (patron.test(valor)) {
-    return true;
-  }
-  return false;
 };

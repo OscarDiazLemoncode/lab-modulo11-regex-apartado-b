@@ -1,9 +1,9 @@
 import {
-  habilitarBoton,
+  habilitarBoton as habilitarBotonComprobar,
   limpiarInfo,
   obtenerValorInput,
+  mostrarDatosIban,
   validarIbanBienFormado,
-  coincidenciaEnTablaBancos,
 } from './motor';
 
 export const eventos = () => {
@@ -18,7 +18,7 @@ export const eventos = () => {
     borrar instanceof HTMLSpanElement
   ) {
     input.addEventListener('change', () => {
-      habilitarBoton();
+      habilitarBotonComprobar();
     });
     input.addEventListener('input', () => {
       borrar.classList.remove('oculto');
@@ -32,8 +32,8 @@ export const eventos = () => {
   if (comprobar && comprobar instanceof HTMLButtonElement) {
     comprobar.addEventListener('click', () => {
       const valorInput = obtenerValorInput();
-      validarIbanBienFormado(valorInput);
-      coincidenciaEnTablaBancos(valorInput);
+      const ibanValidado = validarIbanBienFormado(valorInput);
+      mostrarDatosIban(valorInput, ibanValidado);
     });
   }
 };

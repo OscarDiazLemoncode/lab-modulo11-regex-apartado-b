@@ -1,6 +1,6 @@
-import { validarIbanBienFormadoParaTest } from './motor';
+import { validarIbanBienFormado } from './motor';
 
-describe('validarIbanBienFormadoParaTest', () => {
+describe('validarIbanBienFormado', () => {
   test.each([
     ['ES21 1465 0100 72 2030876293', true],
     ['ES2114650100722030876293', true],
@@ -15,7 +15,7 @@ describe('validarIbanBienFormadoParaTest', () => {
   ])(
     'Deberia devolver true si los IBAN están bien formados',
     (valor: string, expected: boolean) => {
-      expect(validarIbanBienFormadoParaTest(valor)).toBe(expected);
+      expect(validarIbanBienFormado(valor)).toBe(expected);
     }
   );
 });
