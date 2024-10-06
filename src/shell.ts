@@ -1,4 +1,3 @@
-/* import { eventos } from './ui';
+import { eventos } from './ui';
 
 document.addEventListener('DOMContentLoaded', eventos);
- */

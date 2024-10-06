@@ -10,17 +10,18 @@
   <body>
     <div id="app">
       <main>
-        <h1>Pegue el HTML para extraer los enlaces de las imágenes</h1>
+        <h2>Pegue el HTML para extraer los enlaces de las imágenes</h2>
         <div class="container_input">
-          <input
-            type="text"
-            name=""
-            id="input_iban"
-            placeholder=""
-          />
+          <textarea name="html"
+          id="textarea"
+          placeholder="Pegue el HTML"
+          rows="20"
+          cols="100">
+            
+          </textarea>
           <span class="clear oculto">+</span>
         </div>
-          <button id="extraer" disabled>Extraer</button>
+          <button id="extraer">Extraer</button>
           <div class="info"></div>
         </div>
       </main>

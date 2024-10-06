@@ -38,3 +38,15 @@ export const eventos = () => {
   }
 };
  */
+
+import { obtenerValorTextArea, buscarImagenesEnHtml } from './motor';
+
+export const eventos = () => {
+  const botonExtraer = document.querySelector('#extraer');
+  if (botonExtraer && botonExtraer instanceof HTMLButtonElement) {
+    botonExtraer.addEventListener('click', () => {
+      const valorTextarea = obtenerValorTextArea();
+      buscarImagenesEnHtml(valorTextarea);
+    });
+  }
+};

@@ -94,3 +94,22 @@ export const mostrarDatosIban = (valor: string, ibanValidado: boolean) => {
   }
 };
  */
+
+export const obtenerValorTextArea = (): string => {
+  const textArea = document.querySelector('textarea');
+  if (textArea && textArea instanceof HTMLTextAreaElement) {
+    return textArea.value;
+  }
+  throw new Error('No se ha obtenido el valor de textarea');
+};
+
+export const buscarImagenesEnHtml = (valor: string) => {
+  const patron =
+    /* /<img\ssrc="?'?(?<url>\w+\w?:(\/\/.+)\.(webp|jpg|png))"?'?\s?\/>$/gim; */
+    /<img\ssrc=(?<url>"?'?\w+\w?:(\/\/.+)\.(webp|jpg|png)"?'?)\s?\/>$/gm;
+  const coincidencias = patron.exec(valor);
+  if (coincidencias) {
+    const { url } = coincidencias.groups as any;
+    console.log(url);
+  }
+};

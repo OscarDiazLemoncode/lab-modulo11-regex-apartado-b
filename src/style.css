@@ -122,3 +122,7 @@ span.clear {
 .info {
   text-align: left;
 }
+textarea {
+  resize: none;
+  margin: 2rem 0;
+}
