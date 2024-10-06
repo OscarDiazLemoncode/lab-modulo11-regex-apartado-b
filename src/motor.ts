@@ -1,4 +1,4 @@
-import { tablaBancos, PATRON } from './modelo';
+/* import { tablaBancos, PATRON } from './modelo';
 
 export const obtenerValorInput = (): string => {
   const input = document.querySelector('#input_iban');
@@ -93,3 +93,4 @@ export const mostrarDatosIban = (valor: string, ibanValidado: boolean) => {
     deshabilitarBoton();
   }
 };
+ */

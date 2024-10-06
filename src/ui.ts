@@ -1,4 +1,4 @@
-import {
+/* import {
   habilitarBoton as habilitarBotonComprobar,
   limpiarInfo,
   obtenerValorInput,
@@ -37,3 +37,4 @@ export const eventos = () => {
     });
   }
 };
+ */
