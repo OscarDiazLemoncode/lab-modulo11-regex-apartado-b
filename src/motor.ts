@@ -110,6 +110,5 @@ export const buscarImagenesEnHtml = (valor: string) => {
   const coincidencias = patron.exec(valor);
   if (coincidencias) {
     const { url } = coincidencias.groups as any;
-    console.log(url);
   }
 };
