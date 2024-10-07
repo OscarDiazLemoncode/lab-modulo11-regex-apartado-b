@@ -104,11 +104,20 @@ export const obtenerValorTextArea = (): string => {
 };
 
 export const buscarImagenesEnHtml = (valor: string) => {
-  const patron =
-    /* /<img\ssrc="?'?(?<url>\w+\w?:(\/\/.+)\.(webp|jpg|png))"?'?\s?\/>$/gim; */
+  const patron: RegExp =
     /<img\ssrc=(?<url>"?'?\w+\w?:(\/\/.+)\.(webp|jpg|png)"?'?)\s?\/>$/gm;
-  const coincidencias = patron.exec(valor);
-  if (coincidencias) {
-    const { url } = coincidencias.groups as any;
+  ///<img\s+[^>]*src=(?<url>["']?([^"'\s>]+)["'])?[^>]*>/gm;
+  /* const imgs = patron.exec(valor);
+  if (imgs) {
+    const { url } = imgs.groups as any;
+    console.log(url);
+  } */
+  let match;
+  while ((match = patron.exec(valor)) !== null) {
+    console.log(match[1]);
   }
+  /* const coincidencias = valor.match(patron);
+  console.log(coincidencias); */
+
+  //console.log(valor.match(pattern));
 };
