@@ -94,6 +94,7 @@ export const mostrarDatosIban = (valor: string, ibanValidado: boolean) => {
   }
 };
  */
+import { PATRON } from './modelo';
 
 export const crearTitulo = (texto: string) => {
   const divInfo = document.querySelector('.info');
@@ -101,6 +102,16 @@ export const crearTitulo = (texto: string) => {
   if (divInfo && divInfo instanceof HTMLDivElement) {
     titulo.textContent = texto;
     divInfo.appendChild(titulo);
+  }
+};
+
+export const crearenlaceImg = (texto: string) => {
+  const divInfo = document.querySelector('.info');
+  const enlace = document.createElement('a');
+  if (divInfo && divInfo instanceof HTMLDivElement) {
+    enlace.textContent = texto;
+    enlace.href = texto;
+    divInfo.appendChild(enlace);
   }
 };
 const limpiarInfo = () => {
@@ -140,12 +151,42 @@ export const mostrarMensajeAviso = (hayImgs: boolean): void => {
   }
 };
 
-export const buscarImagenesEnHtml = (valor: string) => {
-  const patron: RegExp =
-    // /<img\ssrc=(?<url>"?'?\w+\w?:(\/\/.+)\.(webp|jpg|png)"?'?)\s?\/>$/gm;
-    ///<img\s+[^>]*src=(?<url>["']?([^"'\s>]+)["'])?[^>$]*>/gm;
-    /\s*?<img\s*?src=(?<url>["']?([^"'\s>]+)["'])?[^>]*>/gm;
-  const imgs = valor.match(patron);
-  console.log(imgs);
-  return imgs;
+export const obtenerImgEnHtml = (valor: string): string[] => {
+  const imgs = valor.match(PATRON);
+  if (imgs) {
+    console.log(imgs);
+    return imgs;
+  }
+  throw 'No se han obtenido las imagenes';
 };
+
+export const obtenerEnlacesImg = (imgs: string[]): any => {
+  const patronEnlaceImg: RegExp =
+    ///["']?(?<url>(http:|https:)\/\/.*)["']?/gm;
+    /["']?(?<url>(http:|https:)\/\/.*\.(jpg|webp|png|jpeg))["']/gm;
+  const arrayImagenes = imgs.forEach((imagen) => {
+    const enlace = imagen.match(patronEnlaceImg);
+    //const nombre = patronEnlaceImg.exec(enlace.toString())
+    if (enlace) {
+      console.log(enlace);
+      console.log(enlace.toString());
+      crearenlaceImg(enlace.toString());
+    }
+  });
+  return arrayImagenes;
+};
+/* const patron =
+    /^(?<parteNumerica>\d{2}\.?\d{3}\.?\d{3})(\s|-|_)?(?<letra>[A-Za-z])$/;
+  const coincidencia = patron.exec(value);
+  if (coincidencia) {
+    const { parteNumerica, letra } = coincidencia.groups as any;
+    //Replace (metodo strings)
+    // Reemplaza todos los puntos que encuentres de forma global(/g), y lo cambias por...("" espacio en blanco)
+    const numeroLimpio = parteNumerica.replace(/\./g, '');
+    console.log('La parte numerica es:', numeroLimpio);
+    console.log('La letra es:', letra);
+    return true;
+  } else {
+    console.log('FALLO');
+    return false;
+  } */

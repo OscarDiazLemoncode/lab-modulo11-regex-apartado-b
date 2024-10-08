@@ -41,10 +41,11 @@ export const eventos = () => {
 
 import {
   obtenerValorTextArea,
-  buscarImagenesEnHtml,
+  obtenerImgEnHtml,
   habilitarBotonExtraer,
   validarExistenciaDeImg,
   mostrarMensajeAviso,
+  obtenerEnlacesImg,
 } from './motor';
 
 export const eventos = () => {
@@ -64,7 +65,8 @@ export const eventos = () => {
   if (botonExtraer && botonExtraer instanceof HTMLButtonElement) {
     botonExtraer.addEventListener('click', () => {
       const valorTextarea = obtenerValorTextArea();
-      buscarImagenesEnHtml(valorTextarea);
+      const imaganes = obtenerImgEnHtml(valorTextarea);
+      obtenerEnlacesImg(imaganes);
     });
   }
 };

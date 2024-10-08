@@ -126,3 +126,6 @@ textarea {
   resize: none;
   margin: 2rem 0;
 }
+a {
+  display: block;
+}
