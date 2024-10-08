@@ -95,29 +95,57 @@ export const mostrarDatosIban = (valor: string, ibanValidado: boolean) => {
 };
  */
 
+export const crearTitulo = (texto: string) => {
+  const divInfo = document.querySelector('.info');
+  const titulo = document.createElement('h2');
+  if (divInfo && divInfo instanceof HTMLDivElement) {
+    titulo.textContent = texto;
+    divInfo.appendChild(titulo);
+  }
+};
+const limpiarInfo = () => {
+  const divInfo = document.querySelector('.info');
+  if (divInfo && divInfo instanceof HTMLDivElement) {
+    divInfo.innerHTML = '';
+  }
+};
+
 export const obtenerValorTextArea = (): string => {
   const textArea = document.querySelector('textarea');
   if (textArea && textArea instanceof HTMLTextAreaElement) {
-    return textArea.value;
+    return textArea.value.replace(/[\s\n]/gm, '').trim();
   }
   throw new Error('No se ha obtenido el valor de textarea');
 };
 
+export const habilitarBotonExtraer = () => {
+  const extraer = document.querySelector('#extraer');
+  if (extraer && extraer instanceof HTMLButtonElement) {
+    extraer.removeAttribute('disabled');
+  }
+};
+export const validarExistenciaDeImg = (): boolean => {
+  const valor = obtenerValorTextArea();
+  const patron = /\s*?<img\s*?src=/gm;
+  ///\s*?<img\s*?src=["'](.*)["'\s*?\/>$]/gm;
+  return patron.test(valor) ? true : false;
+};
+
+export const mostrarMensajeAviso = (hayImgs: boolean): void => {
+  if (hayImgs) {
+    limpiarInfo();
+  } else {
+    limpiarInfo();
+    crearTitulo('No se han encontrado elmentos de tipo <img>');
+  }
+};
+
 export const buscarImagenesEnHtml = (valor: string) => {
   const patron: RegExp =
-    /<img\ssrc=(?<url>"?'?\w+\w?:(\/\/.+)\.(webp|jpg|png)"?'?)\s?\/>$/gm;
-  ///<img\s+[^>]*src=(?<url>["']?([^"'\s>]+)["'])?[^>]*>/gm;
-  /* const imgs = patron.exec(valor);
-  if (imgs) {
-    const { url } = imgs.groups as any;
-    console.log(url);
-  } */
-  let match;
-  while ((match = patron.exec(valor)) !== null) {
-    console.log(match[1]);
-  }
-  /* const coincidencias = valor.match(patron);
-  console.log(coincidencias); */
-
-  //console.log(valor.match(pattern));
+    // /<img\ssrc=(?<url>"?'?\w+\w?:(\/\/.+)\.(webp|jpg|png)"?'?)\s?\/>$/gm;
+    ///<img\s+[^>]*src=(?<url>["']?([^"'\s>]+)["'])?[^>$]*>/gm;
+    /\s*?<img\s*?src=(?<url>["']?([^"'\s>]+)["'])?[^>]*>/gm;
+  const imgs = valor.match(patron);
+  console.log(imgs);
+  return imgs;
 };

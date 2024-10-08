@@ -39,10 +39,28 @@ export const eventos = () => {
 };
  */
 
-import { obtenerValorTextArea, buscarImagenesEnHtml } from './motor';
+import {
+  obtenerValorTextArea,
+  buscarImagenesEnHtml,
+  habilitarBotonExtraer,
+  validarExistenciaDeImg,
+  mostrarMensajeAviso,
+} from './motor';
 
 export const eventos = () => {
+  const textArea = document.querySelector('#textarea');
   const botonExtraer = document.querySelector('#extraer');
+
+  if (textArea && textArea instanceof HTMLTextAreaElement) {
+    textArea.addEventListener('change', habilitarBotonExtraer);
+  }
+  if (textArea && textArea instanceof HTMLTextAreaElement) {
+    textArea.addEventListener('input', () => {
+      const hayImgs = validarExistenciaDeImg();
+      mostrarMensajeAviso(hayImgs);
+    });
+  }
+
   if (botonExtraer && botonExtraer instanceof HTMLButtonElement) {
     botonExtraer.addEventListener('click', () => {
       const valorTextarea = obtenerValorTextArea();
