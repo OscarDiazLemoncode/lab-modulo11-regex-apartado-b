@@ -154,13 +154,19 @@ export const mostrarMensajeAviso = (hayImgs: boolean): void => {
 export const obtenerImgEnHtml = (valor: string): string[] => {
   const imgs = valor.match(PATRON);
   if (imgs) {
-    console.log(imgs);
-    return imgs;
+    return imgs.map((el) => {
+      const coincidencia = PATRON.exec(valor);
+      if (coincidencia && el) {
+        const { url } = coincidencia.groups as any;
+        crearenlaceImg(url);
+        return url;
+      }
+    });
   }
   throw 'No se han obtenido las imagenes';
 };
 
-export const obtenerEnlacesImg = (imgs: string[]): any => {
+/* export const obtenerEnlacesImg = (imgs: string[]): any => {
   const patronEnlaceImg: RegExp =
     ///["']?(?<url>(http:|https:)\/\/.*)["']?/gm;
     /["']?(?<url>(http:|https:)\/\/.*\.(jpg|webp|png|jpeg))["']/gm;
@@ -169,12 +175,12 @@ export const obtenerEnlacesImg = (imgs: string[]): any => {
     //const nombre = patronEnlaceImg.exec(enlace.toString())
     if (enlace) {
       console.log(enlace);
-      console.log(enlace.toString());
-      crearenlaceImg(enlace.toString());
+      console.log(enlace.toString().replace(/^["']|["']$/g, ''));
+      crearenlaceImg(enlace.toString().replace(/^["']|["']$/g, ''));
     }
   });
   return arrayImagenes;
-};
+}; */
 /* const patron =
     /^(?<parteNumerica>\d{2}\.?\d{3}\.?\d{3})(\s|-|_)?(?<letra>[A-Za-z])$/;
   const coincidencia = patron.exec(value);

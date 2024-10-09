@@ -45,7 +45,7 @@ import {
   habilitarBotonExtraer,
   validarExistenciaDeImg,
   mostrarMensajeAviso,
-  obtenerEnlacesImg,
+  /* obtenerEnlacesImg, */
 } from './motor';
 
 export const eventos = () => {
@@ -65,8 +65,8 @@ export const eventos = () => {
   if (botonExtraer && botonExtraer instanceof HTMLButtonElement) {
     botonExtraer.addEventListener('click', () => {
       const valorTextarea = obtenerValorTextArea();
-      const imaganes = obtenerImgEnHtml(valorTextarea);
-      obtenerEnlacesImg(imaganes);
+      /* const imaganes =  */ obtenerImgEnHtml(valorTextarea);
+      /* obtenerEnlacesImg(imaganes); */
     });
   }
 };
