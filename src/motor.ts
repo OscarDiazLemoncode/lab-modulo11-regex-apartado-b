@@ -96,7 +96,7 @@ export const mostrarDatosIban = (valor: string, ibanValidado: boolean) => {
  */
 import { PATRON } from './modelo';
 
-export const crearTitulo = (texto: string) => {
+export const crearTitulo = (texto: string): void => {
   const divInfo = document.querySelector('.info');
   const titulo = document.createElement('h2');
   if (divInfo && divInfo instanceof HTMLDivElement) {
@@ -105,15 +105,40 @@ export const crearTitulo = (texto: string) => {
   }
 };
 
-export const crearenlaceImg = (texto: string) => {
+export const crearenlaceImg = (url: string): void => {
   const divInfo = document.querySelector('.info');
   const enlace = document.createElement('a');
   if (divInfo && divInfo instanceof HTMLDivElement) {
-    enlace.textContent = texto;
-    enlace.href = texto;
+    enlace.textContent = url;
+    enlace.href = url;
     divInfo.appendChild(enlace);
   }
 };
+export const crearImg = (url: string): void => {
+  const divInfo = document.querySelector('.info');
+  const img = document.createElement('img');
+  if (divInfo && divInfo instanceof HTMLDivElement) {
+    img.src = url;
+    divInfo.appendChild(img);
+  }
+};
+
+export const crearCardPersonaje = (url: string): void => {
+  const divInfo = document.querySelector('.info');
+  const card = document.createElement('div');
+  card.classList.add('card');
+  const enlace = document.createElement('a');
+  enlace.textContent = url;
+  enlace.href = url;
+  const imagen = document.createElement('img');
+  imagen.src = url;
+  if (divInfo && divInfo instanceof HTMLDivElement) {
+    card.classList.add('card');
+    divInfo.appendChild(card);
+    card.append(enlace, imagen);
+  }
+};
+
 const limpiarInfo = () => {
   const divInfo = document.querySelector('.info');
   if (divInfo && divInfo instanceof HTMLDivElement) {
@@ -158,7 +183,7 @@ export const obtenerImgEnHtml = (valor: string): string[] => {
       const coincidencia = PATRON.exec(valor);
       if (coincidencia && el) {
         const { url } = coincidencia.groups as any;
-        crearenlaceImg(url);
+        crearCardPersonaje(url);
         return url;
       }
     });
