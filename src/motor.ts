@@ -27,7 +27,7 @@ export const crearImg = (url: string): void => {
   }
 };
 
-export const crearCardPersonaje = (url: string) => {
+export const crearCardPersonaje = (url: string): void => {
   const divInfo = document.querySelector('.info');
   const card = document.createElement('div');
   card.classList.add('card');
@@ -47,7 +47,7 @@ export const crearCardPersonaje = (url: string) => {
   }
 };
 
-const limpiarInfo = () => {
+const limpiarInfo = (): void => {
   const divInfo = document.querySelector('.info');
   if (divInfo && divInfo instanceof HTMLDivElement) {
     divInfo.innerHTML = '';
@@ -64,7 +64,7 @@ export const obtenerValorTextArea = (): string => {
   throw new Error('No se ha obtenido el valor de textarea');
 };
 
-export const habilitarBotonExtraer = () => {
+export const habilitarBotonExtraer = (): void => {
   const extraer = document.querySelector('#extraer');
   if (extraer && extraer instanceof HTMLButtonElement) {
     extraer.removeAttribute('disabled');
