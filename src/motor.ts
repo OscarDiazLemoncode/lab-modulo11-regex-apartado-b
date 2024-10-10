@@ -160,8 +160,8 @@ export const habilitarBotonExtraer = () => {
     extraer.removeAttribute('disabled');
   }
 };
-export const validarExistenciaDeImg = (): boolean => {
-  const valor = obtenerValorTextArea();
+export const validarExistenciaDeImg = (valor): boolean => {
+  //const valor = obtenerValorTextArea();
   const patron = /\s*?<img\s*?src=/gm;
   ///\s*?<img\s*?src=["'](.*)["'\s*?\/>$]/gm;
   return patron.test(valor) ? true : false;

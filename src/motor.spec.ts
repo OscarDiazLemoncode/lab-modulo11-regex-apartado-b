@@ -1,22 +1,17 @@
-/* import { validarIbanBienFormado } from './motor';
+import { validarExistenciaDeImg } from './motor';
 
-describe('validarIbanBienFormado', () => {
+describe('validarExistenciaDeImg', () => {
   test.each([
-    ['ES21 1465 0100 72 2030876293', true],
-    ['ES2114650100722030876293', true],
-    ['ES21-1465-0100-72-2030876293', true],
-    ['ES6621000418401234567891', true],
-    ['ES.211465 0100 72 2030876293', false],
-    ['ES-2114650100722030876293', false],
-    ['ES v21-1465-0100-72-2030876293', false],
-    ['ES662.1000418401234567891', false],
-    ['ES662.100.04184 01234567891', false],
-    ['ES-662.10004184012,34567891', false],
+    ['<img src="http://localhost:3000/./mortadelo.webp" />', true],
+    ['<img src="http://localhost:3000/./filemon.webp" />', true],
+    ['<img src="http://localhost:3000/./ofelia.webp" />', true],
+    ['<img src="http://localhost:3000/./bacterio.webp" />', true],
+    ['src="http://localhost:3000/./bacterio.webp"', false],
+    ['http://localhost:3000/./bacterio.webp', false],
   ])(
-    'Deberia devolver true si los IBAN están bien formados',
+    'Deberia devolver true si existe <img>',
     (valor: string, expected: boolean) => {
-      expect(validarIbanBienFormado(valor)).toBe(expected);
+      expect(validarExistenciaDeImg(valor)).toBe(expected);
     }
   );
 });
- */

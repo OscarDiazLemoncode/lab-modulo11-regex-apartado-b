@@ -57,7 +57,8 @@ export const eventos = () => {
   }
   if (textArea && textArea instanceof HTMLTextAreaElement) {
     textArea.addEventListener('input', () => {
-      const hayImgs = validarExistenciaDeImg();
+      const valorTextarea = obtenerValorTextArea();
+      const hayImgs = validarExistenciaDeImg(valorTextarea);
       mostrarMensajeAviso(hayImgs);
     });
   }
