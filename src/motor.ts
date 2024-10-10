@@ -1,99 +1,3 @@
-/* import { tablaBancos, PATRON } from './modelo';
-
-export const obtenerValorInput = (): string => {
-  const input = document.querySelector('#input_iban');
-  if (input && input instanceof HTMLInputElement) {
-    return input.value.toUpperCase().trim();
-  }
-  throw new Error('No se ha obtenido el valor del input');
-};
-
-export const habilitarBoton = () => {
-  const comprobar = document.querySelector('#comprobar');
-  if (comprobar && comprobar instanceof HTMLButtonElement) {
-    comprobar.removeAttribute('disabled');
-  }
-};
-export const deshabilitarBoton = () => {
-  const comprobar = document.querySelector('#comprobar');
-  if (comprobar && comprobar instanceof HTMLButtonElement) {
-    comprobar.setAttribute('disabled', 'true');
-  }
-};
-
-export const crearTitulo = (texto: string) => {
-  const divInfo = document.querySelector('.info');
-  const titulo = document.createElement('h2');
-  if (divInfo && divInfo instanceof HTMLDivElement) {
-    titulo.textContent = texto;
-    divInfo.appendChild(titulo);
-  }
-};
-
-export const limpiarInfo = () => {
-  const divInfo = document.querySelector('.info');
-  const input = document.querySelector('#input_iban');
-  if (
-    divInfo &&
-    divInfo instanceof HTMLDivElement &&
-    input &&
-    input instanceof HTMLInputElement
-  ) {
-    input.value = '';
-    divInfo.innerHTML = '';
-  }
-};
-
-export const validarIbanBienFormado = (valor: string): boolean => {
-  const patron =
-    /^(?<pais>[A-Z]{2})(?<digitoControlPais>\d{2})(\s|-)?(?<entidad>\d{4})(\s|-)?(?<oficina>\d{4})(\s|-)?(?<digitoControl>\d{2})(\s|-)?(?<numeroCuenta>\d{10})$/gm;
-  return patron.exec(valor) ? true : false;
-};
-
-const coincidenciaConTablaBancos = (entidad: string): string | undefined => {
-  const bancoEncontrado = tablaBancos.find((banco) => {
-    const digitosBanco = banco.trim().slice(0, 4);
-    return entidad === digitosBanco;
-  });
-
-  if (bancoEncontrado) {
-    const nombreBanco = bancoEncontrado.trim().slice(5);
-    crearTitulo(`Banco: ${nombreBanco}`);
-  } else {
-    crearTitulo('No hay coincidencias con ningún banco');
-  }
-  return bancoEncontrado;
-};
-
-export const mostrarDatosIban = (valor: string, ibanValidado: boolean) => {
-  //const ibanValidado = validarIbanBienFormado(valor);
-  const datosExtraidosDelIban = PATRON.exec(valor);
-
-  ibanValidado
-    ? crearTitulo(`El IBAN está bien formado`)
-    : crearTitulo(`El IBAN NO está bien formado`);
-
-  if (ibanValidado && datosExtraidosDelIban) {
-    const {
-      pais,
-      digitoControlPais,
-      entidad,
-      oficina,
-      digitoControl,
-      numeroCuenta,
-    } = datosExtraidosDelIban.groups as any;
-    crearTitulo(`El IBAN es válido`);
-    crearTitulo(`PAÍS: ${pais}`);
-    crearTitulo(`Dígito control país: ${digitoControlPais}`);
-    crearTitulo(`Código sucursal: ${entidad}`);
-    crearTitulo(`Código oficina: ${oficina}`);
-    crearTitulo(`Dígito de control: ${digitoControl}`);
-    crearTitulo(`Número de cuenta: ${numeroCuenta}`);
-    coincidenciaConTablaBancos(entidad);
-    deshabilitarBoton();
-  }
-};
- */
 import { PATRON } from './modelo';
 
 export const crearTitulo = (texto: string): void => {
@@ -123,10 +27,12 @@ export const crearImg = (url: string): void => {
   }
 };
 
-export const crearCardPersonaje = (url: string): void => {
+export const crearCardPersonaje = (url: string) => {
   const divInfo = document.querySelector('.info');
   const card = document.createElement('div');
   card.classList.add('card');
+  const nombre = document.createElement('h3');
+  nombre.textContent = url.replace(/^.*\/([^\/]+)\.[^.]+$/gm, '$1');
   const enlace = document.createElement('a');
   enlace.textContent = url;
   enlace.href = url;
@@ -135,7 +41,9 @@ export const crearCardPersonaje = (url: string): void => {
   if (divInfo && divInfo instanceof HTMLDivElement) {
     card.classList.add('card');
     divInfo.appendChild(card);
-    card.append(enlace, imagen);
+    card.append(nombre, imagen, enlace);
+  } else {
+    throw new Error('No se ha creado card de cada personaje');
   }
 };
 
@@ -143,6 +51,8 @@ const limpiarInfo = () => {
   const divInfo = document.querySelector('.info');
   if (divInfo && divInfo instanceof HTMLDivElement) {
     divInfo.innerHTML = '';
+  } else {
+    throw new Error('No se ha limpiado info');
   }
 };
 
@@ -158,12 +68,13 @@ export const habilitarBotonExtraer = () => {
   const extraer = document.querySelector('#extraer');
   if (extraer && extraer instanceof HTMLButtonElement) {
     extraer.removeAttribute('disabled');
+    extraer.classList.toggle('valid');
+  } else {
+    throw new Error('No se ha habilitado el boton de extraer imagenes');
   }
 };
-export const validarExistenciaDeImg = (valor): boolean => {
-  //const valor = obtenerValorTextArea();
+export const validarExistenciaDeImg = (valor: string): boolean => {
   const patron = /\s*?<img\s*?src=/gm;
-  ///\s*?<img\s*?src=["'](.*)["'\s*?\/>$]/gm;
   return patron.test(valor) ? true : false;
 };
 
@@ -190,34 +101,3 @@ export const obtenerImgEnHtml = (valor: string): string[] => {
   }
   throw 'No se han obtenido las imagenes';
 };
-
-/* export const obtenerEnlacesImg = (imgs: string[]): any => {
-  const patronEnlaceImg: RegExp =
-    ///["']?(?<url>(http:|https:)\/\/.*)["']?/gm;
-    /["']?(?<url>(http:|https:)\/\/.*\.(jpg|webp|png|jpeg))["']/gm;
-  const arrayImagenes = imgs.forEach((imagen) => {
-    const enlace = imagen.match(patronEnlaceImg);
-    //const nombre = patronEnlaceImg.exec(enlace.toString())
-    if (enlace) {
-      console.log(enlace);
-      console.log(enlace.toString().replace(/^["']|["']$/g, ''));
-      crearenlaceImg(enlace.toString().replace(/^["']|["']$/g, ''));
-    }
-  });
-  return arrayImagenes;
-}; */
-/* const patron =
-    /^(?<parteNumerica>\d{2}\.?\d{3}\.?\d{3})(\s|-|_)?(?<letra>[A-Za-z])$/;
-  const coincidencia = patron.exec(value);
-  if (coincidencia) {
-    const { parteNumerica, letra } = coincidencia.groups as any;
-    //Replace (metodo strings)
-    // Reemplaza todos los puntos que encuentres de forma global(/g), y lo cambias por...("" espacio en blanco)
-    const numeroLimpio = parteNumerica.replace(/\./g, '');
-    console.log('La parte numerica es:', numeroLimpio);
-    console.log('La letra es:', letra);
-    return true;
-  } else {
-    console.log('FALLO');
-    return false;
-  } */

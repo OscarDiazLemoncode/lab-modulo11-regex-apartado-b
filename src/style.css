@@ -156,3 +156,6 @@ button#extraer {
   width: min(300px, 50%);
   padding: 1rem;
 }
+.valid {
+  background-color: #17fd1775;
+}
